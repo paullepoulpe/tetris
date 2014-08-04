@@ -208,6 +208,7 @@ class Game:
         self.screen = pygame.display.set_mode((self.pixelWidth, self.pixelHeight))
         self.debris = []
         self.currentPiece = self.randomPiece()
+        self.losing = False
 
     def allDebris(self):
         return self.debris
@@ -246,8 +247,10 @@ class Game:
         pygame.display.flip()
 
     def move(self, direction):
-        return self.currentPiece.move(self, direction)
-        
+        valid = self.currentPiece.move(self, direction)
+        self.losing = self.losing and not valid
+        return valid
+
     def inBounds(self, position):
         (x, y) = position
         return (x in range(self.width)  and y in range(self.height))
@@ -260,6 +263,16 @@ class Game:
         for debris in self.currentPiece.getDebris():
             self.debris.append(debris)
         self.currentPiece = self.randomPiece() 
+        if not self.currentPiece.isValidPiece(game) :
+            if self.losing:
+                # Lost the game
+                return False
+            else:    
+                # Overlap might be overcome by a move
+                # This is simpler than complicated logic that checks
+                # is there are any valid moves
+                self.losing = True
+        return True
 
     def turnPiece(self):
         self.currentPiece.turn(self)
@@ -306,5 +319,7 @@ while 1:
     if timer == 0:
         timer = 200
         if not game.move(MOVES[pygame.K_DOWN]):
-            game.newPiece()
+            if not game.newPiece():
+                # Game over, start new game 
+                game = Game((8, 15))
             game.checkLines()
