@@ -1,4 +1,4 @@
-# 1 - Import library
+#!/usr/bin/python2.7
 import math
 import random
 import pygame
@@ -14,8 +14,8 @@ GREEN = (  0, 255,   0)
 BLUE =  (  0,   0, 255)
 
 # Geometry
-PIECE_SIZE = 50
-BORDER_SIZE = 20
+PIECE_SIZE = 35
+BORDER_SIZE = 5 
 def toPixel(position):
         (x, y) = position
         pixelX = x * PIECE_SIZE + BORDER_SIZE
@@ -32,8 +32,10 @@ MOVES = {
 
 
 
-# 3 - Load images
+# Load images
 background = pygame.image.load("resources/images/background.png")
+
+
 
 class Debris:
     " Debris class for non moving parts "
@@ -263,10 +265,13 @@ class Game:
         self.currentPiece.turn(self)
     
 
-# 2 - Initialize the game
+# Initialize the game
 pygame.init()
+game = Game((8, 15))
 
-game = Game((8, 12))
+# Load music
+pygame.mixer.music.load('resources/audio/tetris.wav')
+pygame.mixer.music.play(-1, 0.0)
 
 ## Check if the player has closed the game
 def check_quit(event):
