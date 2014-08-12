@@ -6,12 +6,14 @@ from pygame.locals import *
 
 # Set up the constants
 # Colors
-WHITE = (255, 255, 255)
-BLACK = ( 0 ,   0,   0)
-DARK =  (40 ,  40,  40)
-RED =   (255,   0,   0)
-GREEN = (  0, 255,   0)
-BLUE =  (  0,   0, 255)
+WHITE  = (255, 255, 255)
+BLACK  = ( 0 ,   0,   0)
+DARK   = (40 ,  40,  40)
+RED    = (255,   0,   0)
+GREEN  = (  0, 255,   0)
+BLUE   = (  0,   0, 255)
+YELLOW = (  0, 255, 255)
+ORANGE = (255, 255,   0)
 
 # Geometry
 PIECE_SIZE = 35
@@ -34,8 +36,6 @@ MOVES = {
 
 # Load images
 background = pygame.image.load("resources/images/background.png")
-
-
 
 class Debris:
     " Debris class for non moving parts "
@@ -194,8 +194,38 @@ class QPiece(Piece):
         self.blocks.append((x + 1, y + 1))
         self.color = RED 
 
+        
+class SPiece(Piece):
+    " The S shaped piece "
+     ##
+    ##
+    
+    def __init__(self, position):
+        Piece.__init__(self, position)
+        (x, y) = position
+        self.blocks.append((x , y))
+        self.blocks.append((x - 1, y))
+        self.blocks.append((x , y + 1))
+        self.blocks.append((x + 1, y + 1))
+        self.color = YELLOW
+
+class ZPiece(Piece):
+    " The Z shaped piece "
+    ##
+     ##
+    
+    def __init__(self, position):
+        Piece.__init__(self, position)
+        (x, y) = position
+        self.blocks.append((x , y))
+        self.blocks.append((x , y -1))
+        self.blocks.append((x + 1, y))
+        self.blocks.append((x + 1, y + 1))
+        self.color = ORANGE 
+
+
 # All possible pieces in the game
-PIECES = [ TPiece, OPiece, PPiece, QPiece, LPiece ]
+PIECES = [ TPiece, OPiece, PPiece, QPiece, LPiece, SPiece, ZPiece ]
 class Game:
     " Class representing the current game "
 
