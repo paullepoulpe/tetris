@@ -3,9 +3,14 @@ tetris
 
 Simple tetris in python
 
+To launch simply run 
+```
+python game.py
+```
+
+![Screenshot](/resources/screenshot.png)
 
 TODO
 ----
- - Game over when pieces overlap at start
  - Scoring system
  - Only multiplayer games support
